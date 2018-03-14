@@ -18,8 +18,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Application middleware
+namespace App\Controller;
 
-// e.g: $app->add(new \Slim\Csrf\Guard);
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-$app->add($container->get('csrf'));
+class Organizations extends Controller
+{
+    public function index(Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'Organizations/index.twig');
+    }
+}

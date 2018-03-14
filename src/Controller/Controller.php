@@ -18,8 +18,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Application middleware
+namespace App\Controller;
 
-// e.g: $app->add(new \Slim\Csrf\Guard);
+class Controller {
+    private $container;
 
-$app->add($container->get('csrf'));
+    public function __construct($c) {
+        $this->container = $c;
+    }
+
+    public function assignCSRF($request) {
+        // Init the CSRF class
+        $csrf =& $this->container->csrf;
+
+        // Grab the key names
+        $nameKey = $csrf->getTokenNameKey();
+        $valueKey = $csrf->getTokenValueKey();
+
+        // Assign the CSRF data to the view
+        $this->view['csrf'] = [
+            'name_key' => $nameKey,
+            'name' => $request->getAttribute($nameKey),
+            'value_key' => $valueKey,
+            'value' => $request->getAttribute($valueKey)
+        ];
+    }
+
+    // Allow constructor methods to easily access properties from the container
+    public function &__get($name) {
+        return $this->container->$name;
+    }
+}

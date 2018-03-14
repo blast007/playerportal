@@ -47,7 +47,7 @@ class ACL {
         } else {
             // Otherwise, set the flash message and redirect to the login page
             $_SESSION['flash_message'] = $message;
-            return $response->withRedirect('/login?return_to='.urlencode($request->getUri()));
+            return $response->withRedirect('/login?return_to='.urlencode($request->getUri()->getPath()));
         }
     }
 }

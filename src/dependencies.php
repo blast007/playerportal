@@ -72,3 +72,13 @@ $container['password'] = function($c) {
     $settings = $c->get('settings')['passwords'];
     return new \App\Util\Password($settings);
 };
+
+// Flash messages
+$container['flash'] = function ($c) {
+    return new \Slim\Flash\Messages;
+};
+
+// CSRF
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
+};
