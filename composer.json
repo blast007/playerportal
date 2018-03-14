@@ -1,4 +1,6 @@
 {
+    "description": "BZFlag Player Portal provides an interface for managing BZFlag organizations, groups, and hosting keys.",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": ">=7.0.0",
         "slim/slim": "^3.1",
