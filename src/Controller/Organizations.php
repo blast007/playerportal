@@ -26,6 +26,11 @@ use Slim\Http\Response;
 class Organizations extends Controller
 {
     public function index(Request $request, Response $response, array $args) {
-        return $this->view->render($response, 'Organizations/index.twig');
+        $organizations = $this->db
+            ->getModel('\App\Model\PlayerPortal\PublicSchema\OrganizationsModel')
+            ->findByOrganizationMember($_SESSION['user']['user_id'])
+            ->extract();
+
+        return $this->view->render($response, 'Organizations/index.twig', compact('organizations'));
     }
 }

@@ -10,9 +10,9 @@ namespace App\Model\PlayerPortal\PublicSchema\AutoStructure;
 use PommProject\ModelManager\Model\RowStructure;
 
 /**
- * Organizations
+ * ServerKeys
  *
- * Structure class for relation public.organizations.
+ * Structure class for relation public.server_keys.
  * 
  * Class and fields comments are inspected from table and fields comments.
  * Just add comments in your database and they will appear here.
@@ -22,7 +22,7 @@ use PommProject\ModelManager\Model\RowStructure;
  *
  * @see RowStructure
  */
-class Organizations extends RowStructure
+class ServerKeys extends RowStructure
 {
     /**
      * __construct
@@ -34,12 +34,12 @@ class Organizations extends RowStructure
     public function __construct()
     {
         $this
-            ->setRelation('public.organizations')
+            ->setRelation('public.server_keys')
             ->setPrimaryKey(['id'])
             ->addField('id', 'int4')
-            ->addField('founder', 'int4')
-            ->addField('short_name', 'varchar')
-            ->addField('display_name', 'varchar')
+            ->addField('organization', 'int4')
+            ->addField('hostname', 'varchar')
+            ->addField('key', 'varchar')
             ;
     }
 }

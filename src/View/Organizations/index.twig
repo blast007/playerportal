@@ -1,5 +1,29 @@
 {% extends 'Layout/main.twig' %}
 
 {% block content %}
-    Insert stuff about organizations
+    <h2>Your Organizations</h2>
+
+    {% for organization in organizations %}
+        {% if loop.first %}<ul>{% endif %}
+        <li>
+            {% if organization.founder == user.user_id %}
+                [founder]
+            {% elseif organization.owner %}
+                [owner]
+            {% else %}
+                {% if organization.hosting_admin %}[hosting admin]{% endif %}
+                {% if organization.group_admin %}
+                    [group admin]
+                {% elseif organization.group_manager %}
+                    [group manager]
+                {% endif %}
+            {% endif %}
+
+
+            {{ organization.display_name }}
+        </li>
+        {% if loop.last %}</ul>{% endif %}
+    {% else %}
+        <p>You are not associated with any organizations.</p>
+    {% endfor %}
 {% endblock %}
