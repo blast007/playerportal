@@ -20,14 +20,17 @@
 
 namespace App\Controller;
 
-class Controller {
+class Controller
+{
     private $container;
 
-    public function __construct($c) {
+    public function __construct($c)
+    {
         $this->container = $c;
     }
 
-    public function assignCSRF($request) {
+    public function assignCSRF($request)
+    {
         // Init the CSRF class
         $csrf =& $this->container->csrf;
 
@@ -45,7 +48,8 @@ class Controller {
     }
 
     // Allow constructor methods to easily access properties from the container
-    public function &__get($name) {
+    public function &__get($name)
+    {
         return $this->container->$name;
     }
 }

@@ -4,3 +4,4 @@
 /.idea/
 .pomm_cli_bootstrap.php
 settings.php
+/.php_cs.cache

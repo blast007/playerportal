@@ -56,7 +56,7 @@ $container['view'] = function ($c) {
 };
 
 // pomm
-$container['db'] = function($c) {
+$container['db'] = function ($c) {
     $settings = $c->get('settings')['database'];
     $dsn = sprintf('pgsql://%s:%s@%s/%s', $settings['username'], $settings['password'], $settings['host'], $settings['database']);
     return (new \PommProject\Foundation\Pomm(['player_portal' =>
@@ -68,7 +68,7 @@ $container['db'] = function($c) {
 };
 
 // Password
-$container['password'] = function($c) {
+$container['password'] = function ($c) {
     $settings = $c->get('settings')['passwords'];
     return new \App\Util\Password($settings);
 };

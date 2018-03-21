@@ -25,7 +25,8 @@ use Slim\Http\Response;
 
 class Organizations extends Controller
 {
-    public function index(Request $request, Response $response, array $args) {
+    public function index(Request $request, Response $response, array $args)
+    {
         $organizations = $this->db
             ->getModel('\App\Model\PlayerPortal\PublicSchema\OrganizationsModel')
             ->findByOrganizationMember($_SESSION['user']['user_id'])

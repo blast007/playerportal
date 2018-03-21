@@ -26,9 +26,8 @@ use Slim\Http\Response;
 $app->map(['get', 'post'], '/login', 'App\Controller\Authentication:login')->setName('login');
 $app->get('/logout', 'App\Controller\Authentication:logout')->setName('logout');
 
-$app->group('/organizations', function() {
+$app->group('/organizations', function () {
     $this->get('', 'App\Controller\Organizations:index')->setName('organizations');
-
 })->add(new \App\Middleware\ACL([
     'require_authentication' => true
 ]));

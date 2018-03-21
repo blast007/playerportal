@@ -23,14 +23,17 @@ namespace App\Middleware;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ACL {
+class ACL
+{
     private $require_authentication;
 
-    public function __construct($settings) {
+    public function __construct($settings)
+    {
         $this->require_authentication = $settings['require_authentication'] ?? false;
     }
 
-    public function __invoke(Request $request, Response $response, callable $next) {
+    public function __invoke(Request $request, Response $response, callable $next)
+    {
         $allow = true;
         $message = '';
 

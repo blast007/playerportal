@@ -25,7 +25,8 @@ use Slim\Http\Response;
 
 class Authentication extends Controller
 {
-    public function login(Request $request, Response $response, array $args) {
+    public function login(Request $request, Response $response, array $args)
+    {
         // Check the login
         if ($request->isPost()) {
             $username = $request->getParsedBodyParam('username');
@@ -58,7 +59,8 @@ class Authentication extends Controller
         return $this->view->render($response, 'login.twig');
     }
 
-    public function logout (Request $request, Response $response, array $args) {
+    public function logout(Request $request, Response $response, array $args)
+    {
         unset($_SESSION['user']);
         return $response->withRedirect('/');
     }
