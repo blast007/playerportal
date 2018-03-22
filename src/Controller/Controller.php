@@ -20,19 +20,36 @@
 
 namespace App\Controller;
 
+use App\Util\Password;
+use Monolog\Logger;
+use PommProject\ModelManager\Session;
+use Slim\Container;
+use Slim\Csrf\Guard;
+use Slim\Flash\Messages;
+use Slim\Http\Request;
+use Slim\Views\Twig;
+
+/**
+ * @property Logger $logger
+ * @property Twig $view
+ * @property Password $password
+ * @property Messages $flash
+ * @property Session $db
+ * @property Guard $csrf
+ */
 class Controller
 {
     private $container;
 
-    public function __construct($c)
+    public function __construct(Container $c)
     {
         $this->container = $c;
     }
 
-    public function assignCSRF($request)
+    public function assignCSRF(Request $request)
     {
         // Init the CSRF class
-        $csrf =& $this->container->csrf;
+        $csrf = &$this->csrf;
 
         // Grab the key names
         $nameKey = $csrf->getTokenNameKey();
@@ -48,7 +65,7 @@ class Controller
     }
 
     // Allow constructor methods to easily access properties from the container
-    public function &__get($name)
+    public function &__get(string $name)
     {
         return $this->container->$name;
     }
