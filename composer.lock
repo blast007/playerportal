@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1ca328efb083586aefb1f8c63b6d254",
+    "content-hash": "9b21fd2fefc234579feae0b8685a3be8",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -968,16 +968,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.6",
+            "version": "v2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f"
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d2117ec118c1ff3d28ccddca8212d82787a4809f",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/69aacd44dbbaa3199d5afb68605c996d577896fc",
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc",
                 "shasum": ""
             },
             "require": {
@@ -986,8 +986,8 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "library",
             "extra": {
@@ -1030,7 +1030,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2018-03-03T16:23:01+00:00"
+            "time": "2018-03-20T04:31:17+00:00"
         }
     ],
     "packages-dev": [
@@ -1274,16 +1274,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.11.0",
+            "version": "v2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "2ac8defbe07599b79005cca764bfffe7aeac0bf2"
+                "reference": "ad94441c17b8ef096e517acccdbf3238af8a2da8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/2ac8defbe07599b79005cca764bfffe7aeac0bf2",
-                "reference": "2ac8defbe07599b79005cca764bfffe7aeac0bf2",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/ad94441c17b8ef096e517acccdbf3238af8a2da8",
+                "reference": "ad94441c17b8ef096e517acccdbf3238af8a2da8",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1364,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2018-03-20T18:11:36+00:00"
+            "time": "2018-03-21T17:41:26+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3122,7 +3122,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.8"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.0.8"
+    }
 }
