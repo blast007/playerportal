@@ -21,13 +21,10 @@
 namespace App\Model\PlayerPortal\PublicSchema;
 
 use PommProject\ModelManager\Model\Model;
-use PommProject\ModelManager\Model\Projection;
 use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
 
-use PommProject\Foundation\Where;
 
 use App\Model\PlayerPortal\PublicSchema\AutoStructure\Users as UsersStructure;
-use App\Model\PlayerPortal\PublicSchema\Users;
 
 /**
  * UsersModel
@@ -50,6 +47,6 @@ class UsersModel extends Model
     public function __construct()
     {
         $this->structure = new UsersStructure;
-        $this->flexible_entity_class = '\App\Model\PlayerPortal\PublicSchema\Users';
+        $this->flexible_entity_class = Users::class;
     }
 }

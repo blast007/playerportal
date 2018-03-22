@@ -21,13 +21,10 @@
 namespace App\Model\PlayerPortal\PublicSchema;
 
 use PommProject\ModelManager\Model\Model;
-use PommProject\ModelManager\Model\Projection;
 use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
 
-use PommProject\Foundation\Where;
 
 use App\Model\PlayerPortal\PublicSchema\AutoStructure\ServerKeys as ServerKeysStructure;
-use App\Model\PlayerPortal\PublicSchema\ServerKeys;
 
 /**
  * ServerKeysModel
@@ -50,6 +47,6 @@ class ServerKeysModel extends Model
     public function __construct()
     {
         $this->structure = new ServerKeysStructure;
-        $this->flexible_entity_class = '\App\Model\PlayerPortal\PublicSchema\ServerKeys';
+        $this->flexible_entity_class = ServerKeys::class;
     }
 }

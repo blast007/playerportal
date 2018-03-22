@@ -20,6 +20,7 @@
 
 namespace App\Controller;
 
+use App\Model\PlayerPortal\PublicSchema\OrganizationsModel;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -28,9 +29,10 @@ class Organizations extends Controller
     public function index(Request $request, Response $response, array $args)
     {
         $organizations = $this->db
-            ->getModel('\App\Model\PlayerPortal\PublicSchema\OrganizationsModel')
+            ->getModel(OrganizationsModel::class)
             ->findByOrganizationMember($_SESSION['user']['user_id'])
-            ->extract();
+            ->extract()
+        ;
 
         return $this->view->render($response, 'Organizations/index.twig', compact('organizations'));
     }

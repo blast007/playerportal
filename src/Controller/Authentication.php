@@ -20,6 +20,7 @@
 
 namespace App\Controller;
 
+use App\Model\PlayerPortal\PublicSchema\UsersModel;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -37,8 +38,9 @@ class Authentication extends Controller
             } else {
                 // Search for a user
                 $user = $this->db
-                    ->getModel('\App\Model\PlayerPortal\PublicSchema\UsersModel')
-                    ->findWhere('username ~* $*', compact('username'));
+                    ->getModel(UsersModel::class)
+                    ->findWhere('username ~* $*', compact('username'))
+                ;
 
                 if ($user->count() !== 1 || $this->password->verifyHash($password, $user->get(0)['password']) !== true) {
                     $this->view['error'] = 'Invalid username or password.';

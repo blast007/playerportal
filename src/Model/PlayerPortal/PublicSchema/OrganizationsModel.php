@@ -27,7 +27,6 @@ use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
 use PommProject\Foundation\Where;
 
 use App\Model\PlayerPortal\PublicSchema\AutoStructure\Organizations as OrganizationsStructure;
-use App\Model\PlayerPortal\PublicSchema\Organizations;
 
 /**
  * OrganizationsModel
@@ -50,14 +49,15 @@ class OrganizationsModel extends Model
     public function __construct()
     {
         $this->structure = new OrganizationsStructure;
-        $this->flexible_entity_class = '\App\Model\PlayerPortal\PublicSchema\Organizations';
+        $this->flexible_entity_class = Organizations::class;
     }
 
     public function findByOrganizationMember($user_id)
     {
         $users_organizations_model = $this
             ->getSession()
-            ->getModel('\App\Model\PlayerPortal\PublicSchema\UsersOrganizationsModel');
+            ->getModel('\App\Model\PlayerPortal\PublicSchema\UsersOrganizationsModel')
+        ;
 
         $sql = <<<SQL
 SELECT 
