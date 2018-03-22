@@ -56,7 +56,7 @@ class OrganizationsModel extends Model
     {
         $users_organizations_model = $this
             ->getSession()
-            ->getModel('\App\Model\PlayerPortal\PublicSchema\UsersOrganizationsModel')
+            ->getModel(UsersOrganizationsModel::class)
         ;
 
         $sql = <<<SQL
@@ -70,10 +70,10 @@ WHERE
 SQL;
 
         $projection = $this->createProjection()
-            ->setField("owner", "uo.owner", "bool")
-            ->setField("hosting_admin", "uo.hosting_admin", "bool")
-            ->setField("group_admin", "uo.group_admin", "bool")
-            ->setField("group_manager", "uo.group_manager", "bool")
+            ->setField('owner', 'uo.owner', 'bool')
+            ->setField('hosting_admin', 'uo.hosting_admin', 'bool')
+            ->setField('group_admin', 'uo.group_admin', 'bool')
+            ->setField('group_manager', 'uo.group_manager', 'bool')
             ;
 
         $sql = strtr(

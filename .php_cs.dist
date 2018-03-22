@@ -17,6 +17,7 @@ return PhpCsFixer\Config::create()
         ],
         'no_unused_imports' => true,
         'declare_strict_types' => true,
+        'single_quote' => true,
         'header_comment' => [
             'commentType' => 'comment',
             'location' => 'after_declare_strict',
