@@ -60,6 +60,13 @@ class OrganizationsModel extends Model
         ;
 
         $sql = <<<SQL
+SELECT
+    id, founder, short_name, display_name, false as owner, false as hosting_admin, false as group_admin, false as group_manager
+FROM
+    {organizations}
+WHERE
+    founder = $*
+UNION
 SELECT 
     {projection}
 FROM
@@ -85,6 +92,6 @@ SQL;
             ]
         );
 
-        return $this->query($sql, [$user_id], $projection);
+        return $this->query($sql, [$user_id, $user_id], $projection);
     }
 }
