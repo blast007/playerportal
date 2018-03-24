@@ -5,11 +5,24 @@
 <form method="post">
     <input type="hidden" name="{{ csrf.name_key }}" value="{{ csrf.name }}">
     <input type="hidden" name="{{ csrf.value_key }}" value="{{ csrf.value }}">
+    {% for error in errors.username %}
+        {% if loop.first %}<div class="error">{% endif %}
+        {{ error }}
+        {% if loop.last %}</div><br />{% endif %}
+    {% endfor %}
 
     <label for="login_username">Username: </label><br />
     <input type="text" name="username" id="login_username" /><br />
+
+    {% for error in errors.password %}
+        {% if loop.first %}<div class="error">{% endif %}
+        {{ error }}
+        {% if loop.last %}</div><br />{% endif %}
+    {% endfor %}
+
     <label for="login_password">Password:</label><br />
     <input type="password" name="password" id="login_password"><br />
+
     <input type="submit" value="Login" />
 </form>
 

@@ -4,6 +4,7 @@
     "require": {
         "php": ">=7.0.8",
         "monolog/monolog": "^1.17",
+        "particle/validator": "^2.3",
         "pomm-project/cli": "^2.0",
         "pomm-project/foundation": "^2.0",
         "pomm-project/model-manager": "^2.0",

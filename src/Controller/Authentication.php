@@ -23,6 +23,8 @@ namespace App\Controller;
 use App\Model\PlayerPortal\PublicSchema\UsersModel;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Particle\Validator\Validator;
+use Particle\Validator\Exception\InvalidValueException;
 
 class Authentication extends Controller
 {
@@ -30,30 +32,58 @@ class Authentication extends Controller
     {
         // Check the login
         if ($request->isPost()) {
-            $username = $request->getParsedBodyParam('username');
-            $password = $request->getParsedBodyParam('password');
+            $validator = new Validator;
+            $user = null;
 
-            if (!$username || !$password) {
-                $this->view['error'] = 'Invalid username or password.';
+            // Establish rules
+            $validator->required('username', 'Username')
+                ->lengthBetween(2, 32)
+                ->regex("^[a-zA-Z0-9_\[\]][a-zA-Z0-9 \-+_\[\]]*[a-zA-Z0-9\-+_\[\]]$")
+                ->callback(function ($value, array $values) use (&$user) {
+                    // Query to get users matching this username (which should return 0 or 1 columns)
+                    $user = $this->db
+                        ->getModel(UsersModel::class)
+                        ->findWhere('username ~* $*', ['username' => $value])
+                    ;
+
+                    // If we didn't get one user or the password hash doesn't match, throw an exception
+                    if ($user->count() !== 1 || $this->password->verifyHash($values['password'], $user->get(0)['password']) !== true) {
+                        throw new InvalidValueException('Invalid username or password.', 'username');
+                    }
+
+                    // TODO: Add additional checks?  Bans?
+
+                    // Otherwise, we're good to go!
+                    return true;
+                })
+            ;
+            $validator->required('password', 'Password')
+                ->lengthBetween(4, null)
+            ;
+
+            // Grab form data
+            $data = $request->getParsedBody();
+
+            // Validate form data against rules
+            $result = $validator->validate($data);
+
+            // Did all the rules pass validation?
+            if ($result->isValid()) {
+                // Get the user data
+                $u = $user->get(0);
+
+                // Set the session variables
+                $_SESSION['user'] = [
+                    'username' => $u['username'],
+                    'user_id' => $u['id'],
+                    'ip_address' => $_SERVER['REMOTE_ADDR']
+                ];
+
+                // Redirect
+                return $response->withRedirect('/');
             } else {
-                // Search for a user
-                $user = $this->db
-                    ->getModel(UsersModel::class)
-                    ->findWhere('username ~* $*', compact('username'))
-                ;
-
-                if ($user->count() !== 1 || $this->password->verifyHash($password, $user->get(0)['password']) !== true) {
-                    $this->view['error'] = 'Invalid username or password.';
-                } else {
-                    $u = $user->get(0);
-                    $_SESSION['user'] = [
-                        'username' => $u['username'],
-                        'user_id' => $u['id'],
-                        'ip_address' => $_SERVER['REMOTE_ADDR']
-                    ];
-
-                    return $response->withRedirect('/');
-                }
+                // Assign the errors to the view
+                $this->view['errors'] = $result->getMessages();
             }
         }
 
