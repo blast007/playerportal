@@ -80,5 +80,5 @@ $container['flash'] = function ($c) {
 
 // CSRF
 $container['csrf'] = function ($c) {
-    return new \Slim\Csrf\Guard;
+    return (new \Slim\Csrf\Guard())->setPersistentTokenMode(true);
 };
