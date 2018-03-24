@@ -10,6 +10,8 @@ $finder = PhpCsFixer\Finder::create()
 return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR2' => true,
+        'psr4' => true,
+        'strict_comparison' => true,
         'strict_param' => true,
         'array_syntax' => ['syntax' => 'short'],
         'multiline_whitespace_before_semicolons' => [
