@@ -23,11 +23,14 @@ namespace App\Controller;
 use App\Model\PlayerPortal\PublicSchema\OrganizationsModel;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Particle\Validator\Validator;
+use Particle\Validator\Exception\InvalidValueException;
 
 class Organizations extends Controller
 {
     public function index(Request $request, Response $response, array $args)
     {
+        // Retrieve a list of all organizations that the logged in user is associated with
         $organizations = $this->db
             ->getModel(OrganizationsModel::class)
             ->findByOrganizationMember($_SESSION['user']['user_id'])
@@ -35,5 +38,76 @@ class Organizations extends Controller
         ;
 
         return $this->view->render($response, 'Organizations/index.twig', compact('organizations'));
+    }
+
+    public function create(Request $request, Response $response, array $args)
+    {
+        if ($request->isPost()) {
+            $validator = new Validator;
+
+            // Establish rules
+            $validator->required('short_name', 'Short name')
+                ->lengthBetween(2, 32)
+                ->alnum()
+                ->callback(function ($short_name) {
+                    // Check if the organization already exists
+                    $organization = $this->db
+                        ->getModel(OrganizationsModel::class)
+                        ->findWhere('short_name ~* $*', compact('short_name'))
+                    ;
+
+                    // If an organization with this short name exists, throw an exception
+                    if ($organization->count() > 0) {
+                        throw new InvalidValueException('An organization already exists with this short name. Please pick a different name.', 'short_name');
+                    }
+
+                    // Otherwise we are good to go!
+                    return true;
+                })
+            ;
+            $validator->required('display_name', 'Display name')
+                ->lengthBetween(2, 64)
+                ->alnum(true)
+            ;
+
+            // Grab form data
+            $data = $request->getParsedBody();
+
+            // Validate form data against rules
+            $result = $validator->validate($data);
+
+            // Did all the rules pass validation?
+            if ($result->isValid()) {
+                // Try to add it to the DB
+                $organization = $this->db
+                    ->getModel(OrganizationsModel::class)
+                    ->createAndSave([
+                        'founder' => $_SESSION['user']['user_id'],
+                        'short_name' => $data['short_name'],
+                        'display_name' => $data['display_name']
+                    ])
+                ;
+
+                // If the organization was created, redirect
+                if ($organization) {
+                    return $response->withRedirect(
+                        $this->router->pathFor('organizations_view', [
+                            'short_name' => $data['short_name']
+                        ])
+                    );
+                }
+            } else {
+                // Assign the error messages to the view
+                $this->view['errors'] = $result->getMessages();
+            }
+        }
+
+        $this->assignCSRF($request);
+        return $this->view->render($response, 'Organizations/create.twig');
+    }
+
+    public function view(Request $request, Response $response, array $args)
+    {
+        var_dump($args);
     }
 }

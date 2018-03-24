@@ -1,0 +1,30 @@
+{% extends 'Layout/main.twig' %}
+
+{% block content %}
+    <h2>Create Organization</h2>
+
+    <form method="post">
+        <input type="hidden" name="{{ csrf.name_key }}" value="{{ csrf.name }}">
+        <input type="hidden" name="{{ csrf.value_key }}" value="{{ csrf.value }}">
+
+        {% for error in errors.short_name %}
+            {% if loop.first %}<div class="error">{% endif %}
+            {{ error }}
+            {% if loop.last %}</div><br />{% endif %}
+        {% endfor %}
+
+        <label for="short_name">Short Name: </label><br />
+        <input type="text" name="short_name" id="short_name" /><br />
+
+        {% for error in errors.display_name %}
+            {% if loop.first %}<div class="error">{% endif %}
+            {{ error }}
+            {% if loop.last %}</div><br />{% endif %}
+        {% endfor %}
+
+        <label for="display_name">Display Name:</label><br />
+        <input type="password" name="display_name" id="display_name"><br />
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}

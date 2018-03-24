@@ -1,6 +1,7 @@
 {% extends 'Layout/main.twig' %}
 
 {% block content %}
+    <a href="{{ path_for('organizations_create') }}">Create organization</a>
     <h2>Your Organizations</h2>
 
     {% for organization in organizations %}
