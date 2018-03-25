@@ -55,14 +55,14 @@ $container['view'] = function ($c) {
     return $view;
 };
 
-// pomm
+// Pomm
 $container['db'] = function ($c) {
     $settings = $c->get('settings')['database'];
     $dsn = sprintf('pgsql://%s:%s@%s/%s', $settings['username'], $settings['password'], $settings['host'], $settings['database']);
     return (new \PommProject\Foundation\Pomm(['player_portal' =>
         [
             'dsn' => $dsn,
-            'class:session_builder' => '\PommProject\ModelManager\SessionBuilder',
+            'class:session_builder' => '\App\Model\MySessionBuilder',
         ]
     ]))['player_portal'];
 };
