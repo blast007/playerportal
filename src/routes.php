@@ -29,7 +29,7 @@ $app->get('/logout', 'App\Controller\Authentication:logout')->setName('logout');
 $app->group('/organizations', function () {
     $this->get('', 'App\Controller\Organizations:index')->setName('organizations');
     $this->map(['get', 'post'], '/create', 'App\Controller\Organizations:create')->setName('organizations_create');
-    $this->get('/view/{short_name}', 'App\Controller\Organizations:view')->setName('organizations_view');
+    $this->get('/edit/{short_name}', 'App\Controller\Organizations:edit')->setName('organizations_edit');
 })->add(new \App\Middleware\ACL([
     'require_authentication' => true
 ]));

@@ -1,0 +1,39 @@
+{% extends 'Layout/main.twig' %}
+
+{% block content %}
+    <h2>Organization: {{ organization.display_name }} [{{ organization.short_name }}]</h2>
+
+    Founder: {{ organization.founder }}
+
+    <h3>Organization Members</h3>
+    {% for organization_user in organization_users %}
+        {% if loop.first %}<ul>{% endif %}
+        <li>
+                {% if organization.owner %}
+                    [owner]
+                {% else %}
+                    {% if organization.hosting_admin %}[hosting admin]{% endif %}
+                    {% if organization.group_admin %}
+                        [group admin]
+                    {% elseif organization.group_manager %}
+                        [group manager]
+                    {% endif %}
+                {% endif %}
+
+
+                {{ organization.display_name }}
+            </li>
+        {% if loop.last %}</ul>{% endif %}
+    {% else %}
+        <p>There are no other users associated with this organization.</p>
+    {% endfor %}
+
+    <h3>Organization Groups</h3>
+    {% for group in groups %}
+        {% if loop.first %}<ul>{% endif %}
+        <li>[{{ group.visibility }}] {{ group.display_name }}</li>
+        {% if loop.last %}</ul>{% endif %}
+    {% else %}
+        <p>There are no groups associated with this organization.</p>
+    {% endfor %}
+{% endblock %}

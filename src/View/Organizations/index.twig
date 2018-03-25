@@ -6,7 +6,7 @@
 
     {% for organization in organizations %}
         {% if loop.first %}<ul>{% endif %}
-        <li>
+        <li><a href="{{ path_for('organizations_edit', organization) }}">
             {% if organization.founder == user.user_id %}
                 [founder]
             {% elseif organization.owner %}
@@ -22,7 +22,7 @@
 
 
             {{ organization.display_name }}
-        </li>
+        </a></li>
         {% if loop.last %}</ul>{% endif %}
     {% else %}
         <p>You are not associated with any organizations.</p>

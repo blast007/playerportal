@@ -49,4 +49,40 @@ class UsersModel extends Model
         $this->structure = new UsersStructure;
         $this->flexible_entity_class = Users::class;
     }
+
+    public function findByOrganizationMember($organization_id)
+    {
+        $users_organizations_model = $this
+            ->getSession()
+            ->getModel(UsersOrganizationsModel::class)
+        ;
+
+        $sql = <<<SQL
+SELECT
+    {projection}
+FROM
+    {users} u
+    INNER JOIN {users_organizations} uo on u.id = uo.user
+WHERE
+    uo.organization = $*
+SQL;
+
+        $projection = $this->createProjection()
+            ->setField('owner', 'uo.owner', 'bool')
+            ->setField('hosting_admin', 'uo.hosting_admin', 'bool')
+            ->setField('group_admin', 'uo.group_admin', 'bool')
+            ->setField('group_manager', 'uo.group_manager', 'bool')
+        ;
+
+        $sql = strtr(
+            $sql,
+            [
+                '{users}' => $this->structure->getRelation(),
+                '{users_organizations}' => $users_organizations_model->getStructure()->getRelation(),
+                '{projection}' => $projection->formatFields('u'),
+            ]
+        );
+
+        return $this->query($sql, [$organization_id], $projection);
+    }
 }

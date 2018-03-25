@@ -21,6 +21,8 @@
 namespace App\Controller;
 
 use App\Model\PlayerPortal\PublicSchema\OrganizationsModel;
+use App\Model\PlayerPortal\PublicSchema\UsersModel;
+use App\Model\PlayerPortal\PublicSchema\GroupsModel;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Particle\Validator\Validator;
@@ -91,7 +93,7 @@ class Organizations extends Controller
                 // If the organization was created, redirect
                 if ($organization) {
                     return $response->withRedirect(
-                        $this->router->pathFor('organizations_view', [
+                        $this->router->pathFor('organizations_edit', [
                             'short_name' => $data['short_name']
                         ])
                     );
@@ -106,8 +108,41 @@ class Organizations extends Controller
         return $this->view->render($response, 'Organizations/create.twig');
     }
 
-    public function view(Request $request, Response $response, array $args)
+    public function edit(Request $request, Response $response, array $args)
     {
-        var_dump($args);
+        // Try to fetch the organization
+        $organization = $this->db
+            ->getModel(OrganizationsModel::class)
+            ->findWhere('short_name ~* $*', ['short_name' => $args['short_name']])
+            ->extract()
+        ;
+
+        if (sizeof($organization) < 1) {
+            return $response->withRedirect($this->router->pathFor('organizations'));
+        }
+
+        $organization = $organization[0];
+
+        // Fetch organization users
+        $organization_users = $this->db
+            ->getModel(UsersModel::class)
+            ->findByOrganizationMember($organization['id]'])
+            ->extract()
+        ;
+
+        // Fetch organization groups
+        $groups = $this->db
+            ->getModel(GroupsModel::class)
+            ->findWhere('organization = $*', ['organization' => $organization['id']])
+            ->extract()
+        ;
+        ;
+
+
+        return $this->view->render(
+            $response,
+            'Organizations/edit.twig',
+            compact('organization', 'organization_users', 'groups')
+        );
     }
 }
